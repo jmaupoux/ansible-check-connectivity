@@ -1,0 +1,7 @@
+[{
+   "from": "app",
+   "to": "database",
+   "ports": [5432, 5433],
+   "mock": true
+}
+]

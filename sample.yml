@@ -1,0 +1,15 @@
+---
+- name: Check network connections are open
+  hosts: localhost
+  serial: 1
+  vars:
+    connections: "{{ lookup('file',descriptor)|from_json }}"
+
+  tasks:
+    - include: check.yml
+      vars:
+        connection: "{{i}}"
+      with_items: "{{connections}}"
+      loop_control:
+        loop_var: i
+      ignore_errors: true

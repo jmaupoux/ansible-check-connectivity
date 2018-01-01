@@ -1,0 +1,6 @@
+[app]
+app1.local
+app2.local
+
+[database]
+database1.local

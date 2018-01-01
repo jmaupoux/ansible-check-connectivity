@@ -1,0 +1,22 @@
+---
+- name: "mock {{connection.to}}:{{connection.ports}} for host {{connection.from}}"
+  delegate_to: "{{item[0]}}"
+  become: true
+
+  shell: "timeout 120 nc -l -k {{item[1]}} &"
+  ignore_errors: true
+  when: connection.mock|default(false)
+  with_nested:
+  - "{{groups[connection.to]}}"
+  - "{{connection.ports}}"
+
+- name: "check host {{connection.from}} can access to {{connection.to}}:{{connection.ports}}"
+  delegate_to: "{{item[0]}}"
+
+  shell: "nc -z -v -w 5 {{item[1]}} {{item[2]}}"
+  register: result
+  failed_when: result.rc != 0
+  with_nested:
+  - "{{groups[connection.from]}}"
+  - "{{groups[connection.to]}}"
+  - "{{connection.ports}}"
