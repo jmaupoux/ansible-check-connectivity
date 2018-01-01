@@ -1,1 +1,0 @@
-Take advantage of your ansible configuration to check connectivity between hosts
